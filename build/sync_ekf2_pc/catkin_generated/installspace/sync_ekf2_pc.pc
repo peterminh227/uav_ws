@@ -1,0 +1,8 @@
+prefix=/home/samurai/catkin_ws/install
+
+Name: sync_ekf2_pc
+Description: Description of sync_ekf2_pc
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

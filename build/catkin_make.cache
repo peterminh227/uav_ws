@@ -1,0 +1,2 @@
+offb:sync_ekf2_pc
+-DCATKIN_DEVEL_PREFIX=/home/samurai/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/samurai/catkin_ws/install -G Unix Makefiles
