@@ -4,6 +4,8 @@ Implementation of the filter_message ROS package
 Sync data from two topics:
   + /mavros/setpoint_position/local
   + /camera/depth/points
+
+
 into the sync topic
   + /sync_topic
 
