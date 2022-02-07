@@ -10,6 +10,7 @@
 #include <message_filters/sync_policies/approximate_time.h>
 // 
 #include <sync_ekf2_pc/pose_n_pc.h>
+#include <stdlib.h>
 
 
 //mavros_msgs::State current_state;
@@ -22,9 +23,18 @@ geometry_msgs::PoseStamped pose_var;
 void callback(const geometry_msgs::PoseStamped::ConstPtr& mav_pose, const sensor_msgs::PointCloud2::ConstPtr& pointclound_data)
 {
 //
-	ROS_INFO_STREAM("callback now");
+	//ROS_INFO_STREAM("callback now");
 	geometry_msgs::PoseStamped pose_here = *mav_pose;
 	sensor_msgs::PointCloud2 pc_data = *pointclound_data;
+	//ROS_INFO("sec mav_pose: %d, nsec mav_pose: %d", mav_pose->header.stamp.sec, mav_pose->header.stamp.nsec);
+	//ROS_INFO("sec pointclound_data: %d, nsec pointclound_data: %d", pointclound_data->header.stamp.sec, pointclound_data->header.stamp.nsec);
+	float mav_pose_time;
+	float pointclound_time;
+	float diff_time;
+	pointclound_time = (pointclound_data->header.stamp.sec + pointclound_data->header.stamp.nsec/pow(10,9));
+	mav_pose_time = (mav_pose->header.stamp.sec + mav_pose->header.stamp.nsec/pow(10,9));
+	diff_time = (mav_pose_time > pointclound_time) ? mav_pose_time - pointclound_time : pointclound_time - mav_pose_time;
+	ROS_INFO("different time between two topics in ms: %f", diff_time*pow(10,3));
 	
 	// mav_pose
 	sync_data.pose_sync.position.x = pose_here.pose.position.x;
@@ -54,7 +64,7 @@ int main(int argc, char **argv)
 
     //TimeSynchronizer<geometry_msgs::PoseStamped, sensor_msgs::PointCloud2> sync(mav_pose_sub, pointcloud_sub, 10);
     typedef sync_policies::ApproximateTime<geometry_msgs::PoseStamped, sensor_msgs::PointCloud2> MySyncPolicy;
-    Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), mav_pose_sub, pointcloud_sub);
+    Synchronizer<MySyncPolicy> sync(MySyncPolicy(5), mav_pose_sub, pointcloud_sub);
     // callback
     sync.registerCallback(boost::bind(&callback, _1, _2));
 

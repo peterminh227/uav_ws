@@ -23,8 +23,6 @@ ros/message_operations.h
 -
 geometry_msgs/Pose.h
 -
-sensor_msgs/PointCloud2.h
--
 
 /home/samurai/catkin_ws/src/sync_ekf2_pc/src/sync_ekf2_pc_node.cpp
 ros/ros.h
@@ -48,6 +46,8 @@ message_filters/time_synchronizer.h
 message_filters/sync_policies/approximate_time.h
 -
 sync_ekf2_pc/pose_n_pc.h
+-
+stdlib.h
 -
 
 /opt/ros/melodic/include/gazebo_msgs/ModelStates.h
